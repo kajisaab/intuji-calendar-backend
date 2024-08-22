@@ -1,0 +1,30 @@
+{
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "compilerOptions": {
+    "target": "ESNext" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "lib": [] /* Specify a set of bundled library declaration files that describe the target runtime environment. */,
+    "experimentalDecorators": true /* Enable experimental support for legacy experimental decorators. */,
+    "emitDecoratorMetadata": true /* Emit design-type metadata for decorated declarations in source files. */,
+    "module": "NodeNext" /* Specify what module code is generated. */,
+    "baseUrl": "./src" /* Specify the base directory to resolve non-relative module names. */,
+    "paths": {
+      "@config/*": ["config/*"],
+      "@common/*": ["common/*"],
+      "@core/*": ["core/*"],
+      "@feature/*": ["feature/*"]
+    } /* Specify a set of entries that re-map imports to additional lookup locations. */,
+    "resolveJsonModule": true /* Enable importing .json files. */,
+    "sourceMap": true /* Create source map files for emitted JavaScript files. */,
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    /* Type Checking */
+    "strict": true /* Enable all strict type-checking options. */,
+    "noImplicitAny": true /* Enable error reporting for expressions and declarations with an implied 'any' type. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+  },
+  "include": ["src/**/*.ts", ".eslintrc.js", "test/**/*.spec.ts"],
+  "exclude": ["node_modules"]
+}

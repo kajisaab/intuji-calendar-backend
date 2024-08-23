@@ -1,7 +1,6 @@
 import { BadRequestException } from '@core/middleware/errorHandler/BadRequestException';
 import axios from 'axios';
 import type { Request, Response, NextFunction } from 'express';
-import { OAuth2Client } from 'google-auth-library';
 import { GoogleOAuthCredentialDto } from '../dto/GoogleOAuthCredential.dto';
 import { GoogleUserDetailsDto } from '../dto/GoogleUserDetails.dto';
 import { databaseService } from '@config/db.config';
@@ -9,21 +8,15 @@ import { User } from '../entity/User.entity';
 import { createToken } from '@core/auth/JwtStrategy';
 import config from '@config/index';
 import { JwtConfigurationInterface } from 'utils/jwtConfigInterface.interface';
-import { Result } from '@core/middleware/ResponseHandler/Result';
-import { Oauth2CallbackResponseDto } from '../response/Oauth2CallbackResponse.dto';
 import AppLogger from '@core/logger';
+import { oAuth2Client } from '@core/google/OAuthClient';
 
 export default async function Oauth2CallbackUsecase(req: Request, res: Response, next: NextFunction): Promise<any> {
   const logger = new AppLogger();
-  const GOOGLE_CLIENT_ID = '904229495190-qv1kut0ttlmdq8jse0g7n797ik1ee54f.apps.googleusercontent.com';
-  const GOOGLE_CLIENT_SECRET = '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';
+
   const code = req.query.code;
 
   try {
-    const redirectUrl = 'http://127.0.0.1:3000/v1/api/google/oauth2callback';
-
-    const oAuth2Client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, redirectUrl);
-
     const token_res = await oAuth2Client.getToken(code as string);
     await oAuth2Client.setCredentials(token_res.tokens);
 

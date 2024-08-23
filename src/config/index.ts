@@ -35,11 +35,12 @@ const config: Record<string, any> = {
     port: process.env.DB_PORT ?? '', // Provide empty string if null or undefined
     retryCount: 5
   },
-  javaEndpoint: process.env.JAVA_ENDPOINT ?? '', // Provide empty string if null or undefined
-  s3: {
-    accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY
-  }
+  google: {
+    client_id: process.env.GOOGLE_CLIENT_ID ?? '',
+    client_secret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+    redirect_url: process.env.REDIRECT_URL ?? ''
+  },
+  client_url: process.env.CLIENT_URL ?? ''
 };
 
 export default config;

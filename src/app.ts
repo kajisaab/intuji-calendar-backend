@@ -10,10 +10,9 @@ import config from './config';
 import routes from 'routes';
 import { NotFoundError } from '@core/middleware/errorHandler/notFoundError';
 import errorHandler from '@core/middleware/errorHandler';
+import cookieParser from 'cookie-parser';
 
 const app = express();
-
-console.log({ config });
 
 /**
  * PARSE JSON BODIES TO THE OBJECT
@@ -26,14 +25,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /**
- * REQUEST MIDDLEWARE TO MODIFY THE REQUEST
+ * Use cookie-parser middleware
  */
-app.use(requestInterceptor);
+app.use(cookieParser());
 
 /**
  * DEFINE CORS OPTIONS
  */
 app.use(cors(corsOptions));
+
+/**
+ * REQUEST MIDDLEWARE TO MODIFY THE REQUEST
+ */
+app.use(requestInterceptor);
 
 /**
  * SECURITY PURPOSE

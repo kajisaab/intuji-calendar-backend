@@ -36,6 +36,7 @@
     "joi-password-complexity": "^5.2.0",
     "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
+    "mysql2": "^3.11.0",
     "pg": "^8.12.0",
     "typeorm": "^0.3.20",
     "uuid": "^10.0.0",

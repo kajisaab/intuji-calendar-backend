@@ -8,4 +8,5 @@ const router = Router();
 router.post('/getUrl', asyncHandler(GetOauthUrlUsecase));
 
 router.get('/oauth2callback', asyncHandler(Oauth2CallbackUsecase));
+
 export default router;

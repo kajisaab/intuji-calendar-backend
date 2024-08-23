@@ -11,7 +11,6 @@ async function dbConnection(server: Server): Promise<boolean> {
     const response = await databaseService.initialize();
     return response.isInitialized;
   } catch (err) {
-    console.log({ err });
     if (RETRY_COUNT < config.db.retryCount) {
       logger.error('Database connection failed. Retrying...');
     }

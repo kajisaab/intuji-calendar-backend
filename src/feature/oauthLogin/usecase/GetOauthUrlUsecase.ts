@@ -22,6 +22,5 @@ export default async function GetOauthUrlUsecase(req: Request, res: Response, ne
     scope: 'https://www.googleapis.com/auth/calendar profile openid',
     prompt: 'consent'
   });
-  console.log({ authorizeUrl });
   return Result.createSuccess(authorizeUrl);
 }

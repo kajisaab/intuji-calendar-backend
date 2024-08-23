@@ -18,9 +18,9 @@ export async function parseToken(token: string, tokenType: string): Promise<JwtT
 
       const currentUser: JwtTokenUserDetail = {
         aud: (decodedToken?.aud as string) ?? '',
-        userId: decodedToken?.id ?? '',
-        fullName: `${decodedToken.firstName} ${decodedToken?.lastName}`,
-        refreshToken: decodedToken?.refreshToken ?? ''
+        userId: (decodedToken?.id as string) ?? '',
+        fullName: (decodedToken?.name as string) ?? '',
+        refreshToken: (decodedToken?.refreshToken as string) ?? ''
       };
 
       return currentUser;

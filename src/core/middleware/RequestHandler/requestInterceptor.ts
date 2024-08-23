@@ -1,11 +1,13 @@
 import { PublicRoutes } from '@common/publicRoutes';
 import { parseToken } from '@core/auth/authToken.strategy';
-import type { NextFunction, Response } from 'express';
+import type { Request, NextFunction, Response } from 'express';
 import { UnauthorizedError } from '../errorHandler/unauthorizedError';
 import executeQuery from '@common/executeQuery';
 import { type JwtPayload } from 'jsonwebtoken';
+import { databaseService } from '@config/db.config';
+import { User } from '@feature/oauthLogin/entity/User.entity';
 
-function requestInterceptor(req: any, res: Response, next: NextFunction): void {
+function requestInterceptor(req: Request, res: Response, next: NextFunction): void {
   const inputs = [req.params, req.query, req.body];
 
   for (const input of inputs) {
@@ -18,47 +20,35 @@ function requestInterceptor(req: any, res: Response, next: NextFunction): void {
   }
 
   const isExcludedRoute = PublicRoutes.some((route: string) => req.originalUrl.includes(route));
-  console.log({ isExcludedRoute });
-  console.log('lower', req.originalUrl);
 
   if (isExcludedRoute) {
-    console.log({ isExcludedRoute });
     next();
     return;
   }
 
   // here validate the api for the token;
-  const token: string = req.cookies?.accessToken ?? (req.headers['x-xsrf-token'] as string);
+  const token = req.headers['x-xsrf-token'] as string;
 
   if (token === null || token === '' || token === undefined) {
     throw new UnauthorizedError('Token not provided');
   }
 
   parseToken(token, 'access')
-    .then(async (parsedAccessToken) => {
-      await parseToken(token, 'refresh').then(async (parsedRefreshToken: JwtPayload) => {
-        if (parsedRefreshToken?.exp === null || parsedRefreshToken?.exp === undefined) {
-          throw new UnauthorizedError('Cannot read the token');
-        }
+    .then(async (parsedAccessToken: JwtPayload) => {
+      // Check if the user exists or not with the userId inside the token
 
-        // Get the current timestamp (in seconds)
-        const currentTimestamp = Math.floor(Date.now() / 1000);
+      const userRepository = databaseService.getRepository(User);
 
-        // Compare the current timestamp with the expiration timestamp
-        if (currentTimestamp >= parsedRefreshToken?.exp) {
-          throw new UnauthorizedError('Token invalid or expired');
-        }
+      const response = await userRepository.findOneBy({ id: parsedAccessToken.userId });
+      // const response = await executeQuery(`SELECT EXISTS (SELECT 1 FROM ecommerce.user_details
+      //      WHERE id = '${parsedAccessToken.userId}') AS user_exists`);
 
-        // Check if the user exists or not with the userId inside the token
-        const response = await executeQuery(`SELECT EXISTS (SELECT 1 FROM ecommerce.user_details 
-             WHERE id = '${parsedAccessToken.userId}') AS user_exists`);
+      if (!response) {
+        throw new UnauthorizedError('Token Invalid or expired');
+      }
 
-        if (!response[0].userExists) {
-          throw new UnauthorizedError('Token Invalid or expired');
-        }
-        req.user = parsedAccessToken;
-        next();
-      });
+      // req?.['user'] = parsedAccessToken;
+      next();
     })
     .catch((err) => {
       next(err);

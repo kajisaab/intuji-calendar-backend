@@ -8,11 +8,12 @@ import express, { type Request, type Response } from 'express';
 import helmet from 'helmet';
 import config from './config';
 import routes from 'routes';
-import swaggerDocs from '@config/swagger';
 import { NotFoundError } from '@core/middleware/errorHandler/notFoundError';
 import errorHandler from '@core/middleware/errorHandler';
 
 const app = express();
+
+console.log({ config });
 
 /**
  * PARSE JSON BODIES TO THE OBJECT
@@ -33,12 +34,6 @@ app.use(requestInterceptor);
  * DEFINE CORS OPTIONS
  */
 app.use(cors(corsOptions));
-
-/**
- * HANDLE SWAGGER DOCUMENTATION
- * Note: Swagger documentation should always be before the helmet.
- */
-swaggerDocs(app, Number(config.port));
 
 /**
  * SECURITY PURPOSE

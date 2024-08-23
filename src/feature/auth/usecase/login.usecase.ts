@@ -2,10 +2,10 @@ import type { Request, Response, NextFunction } from 'express';
 import { Result } from '@core/middleware/ResponseHandler/Result';
 import { createToken } from '@core/auth/JwtStrategy';
 import config from '@config/index';
-import { type JwtConfigurationInterface } from 'utils/jwtConfigInterface.interface';
 import AppLogger from '@core/logger';
 import type { LoginResponseDto } from '../dto/loginResponse.dto';
 import { LoginRequestDto } from '../request/loginReuqestDto.dto';
+import { JwtConfigurationInterface } from 'utils/jwtConfigInterface.interface';
 
 async function LoginUsecase(req: Request, res: Response, next: NextFunction): Promise<Result<LoginResponseDto>> {
   const logger = new AppLogger();

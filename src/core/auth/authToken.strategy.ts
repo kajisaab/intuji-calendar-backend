@@ -2,8 +2,8 @@
 import { UnauthorizedError } from '@core/middleware/errorHandler/unauthorizedError';
 import { createToken, decodeToken, verifyToken } from './JwtStrategy';
 import config from '@config/index';
-import { type JwtTokenUserDetail } from 'utils/jwtConfigInterface.interface';
 import { type JwtPayload } from 'jsonwebtoken';
+import { JwtTokenUserDetail } from 'utils/jwtConfigInterface.interface';
 
 export async function parseToken(token: string, tokenType: string): Promise<JwtTokenUserDetail | JwtPayload> {
   if (token === '' || token.length === 0) {

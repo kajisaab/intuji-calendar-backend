@@ -1,6 +1,6 @@
 import { UnauthorizedError } from '@core/middleware/errorHandler/unauthorizedError';
 import * as jwt from 'jsonwebtoken';
-import { type JwtConfigurationInterface } from 'utils/jwtConfigInterface.interface';
+import { JwtConfigurationInterface } from 'utils/jwtConfigInterface.interface';
 
 export function createToken(payload: string | object | Buffer, jwtConfig: JwtConfigurationInterface, audience: string): string {
   return jwt.sign(payload, jwtConfig.secret, {

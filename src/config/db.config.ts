@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import config from '.';
 
-export const AppDataSource = new DataSource({
+export const databaseService = new DataSource({
   type: 'postgres',
   host: config.db.host,
   port: +config.db.port,

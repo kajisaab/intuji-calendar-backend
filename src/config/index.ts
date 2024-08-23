@@ -26,7 +26,7 @@ const config: Record<string, any> = {
   },
   port: parseNumericEnv(process.env.PORT, 3000), // Provide 3000 if null or undefined
   prefix: process.env.API_PREFIX ?? 'api', // Provide 'api' if null or undefined
-  version: process.env.VERSION ?? '0.0.1', // Provide 'version' if null or undefined
+  version: process.env.VERSION ?? 'v1', // Provide 'version' if null or undefined
   db: {
     host: process.env.DB_HOST ?? '', // Provide empty string if null or undefined
     user: process.env.DB_USER ?? '', // Provide empty string if null or undefined

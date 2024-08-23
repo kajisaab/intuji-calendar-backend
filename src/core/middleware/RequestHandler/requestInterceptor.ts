@@ -18,8 +18,11 @@ function requestInterceptor(req: any, res: Response, next: NextFunction): void {
   }
 
   const isExcludedRoute = PublicRoutes.some((route: string) => req.originalUrl.includes(route));
+  console.log({ isExcludedRoute });
+  console.log('lower', req.originalUrl);
 
   if (isExcludedRoute) {
+    console.log({ isExcludedRoute });
     next();
     return;
   }

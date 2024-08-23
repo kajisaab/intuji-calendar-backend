@@ -1,6 +1,6 @@
 import { DbEntity } from 'shared/DbEntity';
-import { Column, Table } from 'typeorm/browser';
-import { Entity } from 'typeorm/browser';
+import { Column, Table } from 'typeorm';
+import { Entity } from 'typeorm';
 
 @Entity({ name: 'user', schema: 'blog' })
 export class User extends DbEntity {

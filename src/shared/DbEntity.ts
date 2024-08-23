@@ -1,4 +1,4 @@
-import { Column } from 'typeorm/browser';
+import { Column } from 'typeorm';
 
 export class DbEntity {
   @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

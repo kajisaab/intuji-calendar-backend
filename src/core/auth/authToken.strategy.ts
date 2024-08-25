@@ -23,6 +23,14 @@ export async function parseToken(token: string, tokenType: string): Promise<JwtT
         refreshToken: (decodedToken?.refreshToken as string) ?? ''
       };
 
+      // Get the current timestamp (in seconds)
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+
+      // Compare the current timestamp with the expiration timestamp
+      if (decodedToken !== undefined && decodedToken !== null && decodedToken?.exp && currentTimestamp >= decodedToken?.exp) {
+        throw new UnauthorizedError('Token invalid or expired');
+      }
+
       return currentUser;
     }
 

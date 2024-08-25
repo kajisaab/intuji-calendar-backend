@@ -7,7 +7,7 @@ import { oAuth2Client } from '@core/google/OAuthClient';
 import { BadRequestException } from '@core/middleware/errorHandler/BadRequestException';
 import AppLogger from '@core/logger';
 
-function getRandomNumber() {
+export function getRandomNumber() {
   return Math.floor(Math.random() * 9) + 1;
 }
 

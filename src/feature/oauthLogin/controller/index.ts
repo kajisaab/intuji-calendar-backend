@@ -5,7 +5,7 @@ import Oauth2CallbackUsecase from '../usecase/Oauth2CallbackUsecase';
 
 const router = Router();
 
-router.post('/getUrl', asyncHandler(GetOauthUrlUsecase));
+router.get('/getUrl', asyncHandler(GetOauthUrlUsecase));
 
 router.get('/oauth2callback', asyncHandler(Oauth2CallbackUsecase));
 

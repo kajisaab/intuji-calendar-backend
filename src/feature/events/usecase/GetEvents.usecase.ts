@@ -5,6 +5,7 @@ import { GetEventsRequest } from '../request/GetEvents.request';
 import { google } from 'googleapis';
 import { BadRequestException } from '@core/middleware/errorHandler/BadRequestException';
 import { oAuth2Client } from '@core/google/OAuthClient';
+import { UnauthorizedError } from '@core/middleware/errorHandler/unauthorizedError';
 
 export default async function GetEventsUsecase(req: Request, res: Response, next: NextFunction): Promise<Result<GetEventsResponse>> {
   const body: GetEventsRequest = req.body;
@@ -15,12 +16,23 @@ export default async function GetEventsUsecase(req: Request, res: Response, next
 
   oAuth2Client.setCredentials({ access_token: googleAccessToken });
 
+  const now = new Date();
+  const startDate = new Date(now);
+  startDate.setDate(now.getDate() - 20); // 20 days before
+
+  const endDate = new Date(now);
+  endDate.setDate(now.getDate() + 20); // 20 days after
+
+  const timeMin = startDate.toISOString();
+  const timeMax = endDate.toISOString();
+
   try {
     const response = await calendar.events.list({
       auth: oAuth2Client,
       calendarId: 'primary',
-      timeMin: new Date().toISOString(),
-      maxResults: 10,
+      timeMin: timeMin,
+      timeMax: timeMax,
+      maxResults: 50,
       singleEvents: true,
       orderBy: 'startTime'
     });
@@ -29,6 +41,6 @@ export default async function GetEventsUsecase(req: Request, res: Response, next
 
     return Result.createSuccess(new GetEventsResponse(events));
   } catch (err) {
-    throw new BadRequestException('error');
+    throw new UnauthorizedError(`err ${err}`);
   }
 }
